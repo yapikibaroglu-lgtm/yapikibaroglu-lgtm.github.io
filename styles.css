@@ -358,8 +358,18 @@ h3{ font-size:clamp(1.2rem,2vw,1.5rem); }
 .wa-float:hover{ transform:scale(1.08); box-shadow:0 10px 28px rgba(37,211,102,.5); }
 .wa-float svg{ width:30px; height:30px; }
 
+.ig-float{
+  position:fixed; right:20px; bottom:86px; z-index:90;
+  width:56px; height:56px; border-radius:50%;
+  background:radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+  display:grid; place-items:center;
+  box-shadow:0 8px 24px rgba(0,0,0,.45); transition:transform .25s, box-shadow .25s;
+}
+.ig-float:hover{ transform:scale(1.08); box-shadow:0 10px 28px rgba(214,36,159,.5); }
+.ig-float svg{ width:30px; height:30px; }
+
 .to-top{
-  position:fixed; right:24px; bottom:88px; z-index:90;
+  position:fixed; right:24px; bottom:152px; z-index:90;
   width:46px; height:46px; border-radius:50%;
   background:var(--ink-3); border:1px solid var(--line);
   display:grid; place-items:center; cursor:pointer;
@@ -369,6 +379,15 @@ h3{ font-size:clamp(1.2rem,2vw,1.5rem); }
 .to-top.show{ opacity:1; pointer-events:auto; transform:none; }
 .to-top:hover{ border-color:var(--gold-2); background:var(--ink-4); }
 .to-top svg{ width:22px; height:22px; stroke:var(--gold-2); }
+
+/* footer sosyal ikonlar */
+.foot-social{ display:flex; gap:.7rem; margin-top:1.2rem; }
+.foot-social a{
+  width:40px; height:40px; border-radius:8px; display:grid; place-items:center;
+  border:1px solid var(--line); color:var(--gold-2); transition:.2s; margin:0;
+}
+.foot-social a:hover{ border-color:var(--gold-2); background:var(--ink-4); transform:translateY(-2px); }
+.foot-social svg{ width:20px; height:20px; }
 
 /* erişilebilirlik: hareket azaltma */
 @media (prefers-reduced-motion:reduce){
