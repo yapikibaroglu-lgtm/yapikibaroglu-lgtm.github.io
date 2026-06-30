@@ -389,6 +389,48 @@ h3{ font-size:clamp(1.2rem,2vw,1.5rem); }
 .foot-social a:hover{ border-color:var(--gold-2); background:var(--ink-4); transform:translateY(-2px); }
 .foot-social svg{ width:20px; height:20px; }
 
+/* ============================================================
+   MOBİL SABİT CTA — Ara / WhatsApp
+   ============================================================ */
+.mobile-cta{ display:none; }
+@media (max-width:640px){
+  .mobile-cta{
+    position:fixed; left:0; right:0; bottom:0; z-index:95;
+    display:grid; grid-template-columns:1fr 1fr;
+    border-top:1px solid var(--line); box-shadow:0 -6px 20px rgba(0,0,0,.4);
+  }
+  .mobile-cta a{
+    display:flex; align-items:center; justify-content:center; gap:.5rem;
+    padding:.95rem .5rem; font-family:var(--sans); font-weight:700;
+    font-size:.82rem; letter-spacing:.04em;
+  }
+  .mobile-cta .c-call{ background:var(--ink-3); color:var(--gold-2); }
+  .mobile-cta .c-wa{ background:#25d366; color:#06351d; }
+  .mobile-cta svg{ width:18px; height:18px; }
+  /* mobilde yüzen butonları gizle, sabit şeritle çakışmasın */
+  .wa-float, .ig-float{ display:none; }
+  .to-top{ right:16px; bottom:74px; }
+}
+
+/* ============================================================
+   ERİŞİLEBİLİRLİK — klavye odak çerçevesi
+   ============================================================ */
+:focus-visible{ outline:2px solid var(--gold-2); outline-offset:3px; border-radius:2px; }
+
+/* ============================================================
+   İLAN KUTULARI — markaya uygun görünüm (gerçek foto gelene kadar)
+   ============================================================ */
+.listing .thumb{
+  background:
+    radial-gradient(120% 120% at 80% -10%, rgba(230,200,121,.16), transparent 55%),
+    linear-gradient(135deg,#1d2027,#262a33);
+}
+.listing .thumb svg{ stroke:var(--gold-2); opacity:.55; }
+.listing .thumb::after{
+  content:"Fotoğraf yakında"; position:absolute; bottom:.7rem; right:.9rem;
+  font-size:.62rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted);
+}
+
 /* erişilebilirlik: hareket azaltma */
 @media (prefers-reduced-motion:reduce){
   *{ transition:none!important; scroll-behavior:auto; }

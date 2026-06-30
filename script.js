@@ -3,8 +3,10 @@ document.addEventListener('DOMContentLoaded', function () {
   var burger = document.querySelector('.burger');
   var menu = document.querySelector('.menu');
   if (burger && menu) {
+    burger.setAttribute('aria-expanded', 'false');
     burger.addEventListener('click', function () {
-      menu.classList.toggle('open');
+      var open = menu.classList.toggle('open');
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
     // menüden bir linke tıklayınca kapansın (mobil)
     menu.querySelectorAll('a').forEach(function (a) {
@@ -63,6 +65,14 @@ document.addEventListener('DOMContentLoaded', function () {
     soc.appendChild(iga);
     footBrand.appendChild(soc);
   }
+
+  // ---- Mobil sabit CTA şeridi (Ara / WhatsApp) ----
+  var mcta = document.createElement('div');
+  mcta.className = 'mobile-cta';
+  mcta.innerHTML =
+    '<a class="c-call" href="tel:+905325224005"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Hemen Ara</a>' +
+    '<a class="c-wa" href="https://wa.me/905325224005" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 0 1 8.413 3.488 11.824 11.824 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 0 0 1.51 5.26l-.999 3.648 3.488-.915z"/></svg>WhatsApp</a>';
+  document.body.appendChild(mcta);
 
   // ---- Yukarı çık butonu ----
   var toTop = document.createElement('button');
