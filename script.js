@@ -51,20 +51,30 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   // ---- Hero istatistik sayaç animasyonu ----
-  document.querySelectorAll('.hero-stats .stat b').forEach(function (el) {
+  function runCount(el) {
     var m = el.textContent.trim().match(/^(\d+)(.*)$/);
     if (!m) return;
     var target = parseInt(m[1], 10), suffix = m[2] || '';
-    if (reduce || target === 0) return;
-    var dur = 1200, start = null;
+    if (target === 0) return;
+    var dur = 1800, start = null;
     el.textContent = '0' + suffix;
     requestAnimationFrame(function step(ts) {
       if (!start) start = ts;
       var p = Math.min((ts - start) / dur, 1);
-      el.textContent = Math.round(p * target) + suffix;
+      var eased = 1 - Math.pow(1 - p, 3); // yumuşak yavaşlama (easeOutCubic)
+      el.textContent = Math.round(eased * target) + suffix;
       if (p < 1) requestAnimationFrame(step);
     });
-  });
+  }
+  var stats = document.querySelectorAll('.hero-stats .stat b');
+  if (stats.length && !reduce) {
+    var statObs = new IntersectionObserver(function (entries, obs) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { runCount(e.target); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.5 });
+    stats.forEach(function (b) { statObs.observe(b); });
+  }
 
   // ---- SSS aç/kapat ----
   document.querySelectorAll('.faq-q').forEach(function (q) {
