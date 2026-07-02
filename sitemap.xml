@@ -25,4 +25,19 @@
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
   </url>
+  <url>
+    <loc>https://yapikibaroglu-lgtm.github.io/avcilar-insaat.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://yapikibaroglu-lgtm.github.io/basaksehir-kat-karsiligi.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://yapikibaroglu-lgtm.github.io/bahcesehir-gayrimenkul.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>
