@@ -121,4 +121,51 @@ document.addEventListener('DOMContentLoaded', function () {
       ans.style.maxHeight = isOpen ? ans.scrollHeight + 'px' : null;
     });
   });
+
+  // ---- Öne çıkan ilan galerisi + lightbox ----
+  var featMain = document.getElementById('featMain');
+  var featThumbs = document.getElementById('featThumbs');
+  if (featMain && featThumbs) {
+    var imgs = Array.prototype.slice.call(featThumbs.querySelectorAll('img'));
+    var srcs = imgs.map(function (im) { return im.getAttribute('src'); });
+    var alts = imgs.map(function (im) { return im.getAttribute('alt') || ''; });
+    var cur = 0;
+    function setActive(i) {
+      cur = i;
+      featMain.src = srcs[i];
+      featMain.alt = alts[i];
+      imgs.forEach(function (im, k) { im.classList.toggle('active', k === i); });
+    }
+    imgs.forEach(function (im, i) { im.addEventListener('click', function () { setActive(i); }); });
+    imgs[0].classList.add('active');
+
+    var lb = document.createElement('div');
+    lb.className = 'lightbox';
+    lb.innerHTML =
+      '<button class="lb-btn lb-close" aria-label="Kapat">&times;</button>' +
+      '<button class="lb-btn lb-prev" aria-label="Önceki">&#8249;</button>' +
+      '<img alt="">' +
+      '<button class="lb-btn lb-next" aria-label="Sonraki">&#8250;</button>' +
+      '<div class="lb-count"></div>';
+    document.body.appendChild(lb);
+    var lbImg = lb.querySelector('img');
+    var lbCount = lb.querySelector('.lb-count');
+    function showLb(i) {
+      cur = (i + srcs.length) % srcs.length;
+      lbImg.src = srcs[cur]; lbImg.alt = alts[cur];
+      lbCount.textContent = (cur + 1) + ' / ' + srcs.length;
+      setActive(cur);
+    }
+    featMain.addEventListener('click', function () { lb.classList.add('open'); showLb(cur); });
+    lb.querySelector('.lb-close').addEventListener('click', function () { lb.classList.remove('open'); });
+    lb.querySelector('.lb-prev').addEventListener('click', function () { showLb(cur - 1); });
+    lb.querySelector('.lb-next').addEventListener('click', function () { showLb(cur + 1); });
+    lb.addEventListener('click', function (e) { if (e.target === lb) lb.classList.remove('open'); });
+    document.addEventListener('keydown', function (e) {
+      if (!lb.classList.contains('open')) return;
+      if (e.key === 'Escape') lb.classList.remove('open');
+      else if (e.key === 'ArrowLeft') showLb(cur - 1);
+      else if (e.key === 'ArrowRight') showLb(cur + 1);
+    });
+  }
 });

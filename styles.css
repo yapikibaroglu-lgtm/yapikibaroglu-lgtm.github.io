@@ -431,6 +431,53 @@ h3{ font-size:clamp(1.2rem,2vw,1.5rem); }
   font-size:.62rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted);
 }
 
+/* ============================================================
+   ÖNE ÇIKAN İLAN + GALERİ + LIGHTBOX
+   ============================================================ */
+.feat{ display:grid; grid-template-columns:1.15fr .85fr; gap:2.2rem; align-items:start; }
+.feat-main{ width:100%; height:430px; object-fit:cover; border-radius:10px; border:1px solid var(--line); cursor:zoom-in; transition:.2s; }
+.feat-main:hover{ border-color:var(--gold-2); }
+.feat-thumbs{ display:grid; grid-template-columns:repeat(8,1fr); gap:.5rem; margin-top:.6rem; }
+.feat-thumbs img{ width:100%; height:54px; object-fit:cover; border-radius:4px; cursor:pointer; opacity:.65; border:1px solid transparent; transition:.2s; }
+.feat-thumbs img:hover{ opacity:1; }
+.feat-thumbs img.active{ opacity:1; border-color:var(--gold-2); }
+.feat-info .feat-badge{
+  display:inline-block; background:var(--gold-grad); color:#1a1306;
+  font-size:.7rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  padding:.35rem .8rem; border-radius:2px; margin-bottom:1rem;
+}
+.feat-info h3{ font-size:1.9rem; margin-bottom:.5rem; }
+.feat-loc{ display:flex; align-items:center; gap:.4rem; color:var(--muted); font-size:.95rem; margin-bottom:1.1rem; }
+.feat-loc svg{ stroke:var(--gold-2); flex-shrink:0; }
+.feat-price{ font-family:var(--serif); font-size:2.3rem; color:var(--gold-2); line-height:1; margin-bottom:1.4rem; }
+.specs-list{ list-style:none; display:grid; grid-template-columns:1fr 1fr; gap:.55rem 1rem; margin-bottom:1.5rem; }
+.specs-list li{ position:relative; padding-left:1.5rem; font-size:.92rem; color:var(--text); }
+.specs-list li::before{ content:"✓"; position:absolute; left:0; color:var(--gold-2); font-weight:700; }
+.feat-desc{ color:var(--muted); font-size:.95rem; margin-bottom:1.5rem; }
+.feat-phone{ display:flex; align-items:center; gap:.5rem; margin-bottom:1rem; color:var(--text); font-size:.95rem; }
+.feat-phone svg{ stroke:var(--gold-2); flex-shrink:0; }
+.feat-phone b{ font-family:var(--serif); }
+
+.lightbox{ position:fixed; inset:0; z-index:200; background:rgba(5,6,8,.95); display:none; align-items:center; justify-content:center; }
+.lightbox.open{ display:flex; }
+.lightbox img{ max-width:92vw; max-height:84vh; border-radius:6px; box-shadow:0 20px 60px rgba(0,0,0,.6); }
+.lb-btn{ position:absolute; background:rgba(255,255,255,.08); border:1px solid var(--line); color:#fff; width:48px; height:48px; border-radius:50%; cursor:pointer; font-size:1.3rem; display:grid; place-items:center; transition:.2s; }
+.lb-btn:hover{ background:rgba(230,200,121,.2); border-color:var(--gold-2); }
+.lb-close{ top:20px; right:20px; }
+.lb-prev{ left:16px; top:50%; transform:translateY(-50%); }
+.lb-next{ right:16px; top:50%; transform:translateY(-50%); }
+.lb-count{ position:absolute; bottom:20px; left:50%; transform:translateX(-50%); color:var(--silver); font-size:.85rem; letter-spacing:.1em; }
+@media (max-width:800px){
+  .feat{ grid-template-columns:1fr; gap:1.4rem; }
+  .feat-main{ height:300px; }
+  .feat-thumbs{ grid-template-columns:repeat(6,1fr); }
+}
+@media (max-width:480px){
+  .feat-thumbs{ grid-template-columns:repeat(5,1fr); }
+  .feat-price{ font-size:2rem; }
+  .specs-list{ grid-template-columns:1fr; }
+}
+
 /* erişilebilirlik: hareket azaltma */
 @media (prefers-reduced-motion:reduce){
   *{ transition:none!important; scroll-behavior:auto; }
