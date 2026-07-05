@@ -122,23 +122,9 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // ---- Öne çıkan ilan galerisi + lightbox ----
-  var featMain = document.getElementById('featMain');
-  var featThumbs = document.getElementById('featThumbs');
-  if (featMain && featThumbs) {
-    var imgs = Array.prototype.slice.call(featThumbs.querySelectorAll('img'));
-    var srcs = imgs.map(function (im) { return im.getAttribute('src'); });
-    var alts = imgs.map(function (im) { return im.getAttribute('alt') || ''; });
-    var cur = 0;
-    function setActive(i) {
-      cur = i;
-      featMain.src = srcs[i];
-      featMain.alt = alts[i];
-      imgs.forEach(function (im, k) { im.classList.toggle('active', k === i); });
-    }
-    imgs.forEach(function (im, i) { im.addEventListener('click', function () { setActive(i); }); });
-    imgs[0].classList.add('active');
-
+  // ---- Öne çıkan ilan galerileri + lightbox (çoklu ilan destekli) ----
+  var galleries = document.querySelectorAll('.feat-gallery');
+  if (galleries.length) {
     var lb = document.createElement('div');
     lb.className = 'lightbox';
     lb.innerHTML =
@@ -150,22 +136,42 @@ document.addEventListener('DOMContentLoaded', function () {
     document.body.appendChild(lb);
     var lbImg = lb.querySelector('img');
     var lbCount = lb.querySelector('.lb-count');
-    function showLb(i) {
-      cur = (i + srcs.length) % srcs.length;
-      lbImg.src = srcs[cur]; lbImg.alt = alts[cur];
-      lbCount.textContent = (cur + 1) + ' / ' + srcs.length;
-      setActive(cur);
+    var lbSrcs = [], lbAlts = [], lbCur = 0;
+    function lbShow(i) {
+      lbCur = (i + lbSrcs.length) % lbSrcs.length;
+      lbImg.src = lbSrcs[lbCur]; lbImg.alt = lbAlts[lbCur];
+      lbCount.textContent = (lbCur + 1) + ' / ' + lbSrcs.length;
     }
-    featMain.addEventListener('click', function () { lb.classList.add('open'); showLb(cur); });
-    lb.querySelector('.lb-close').addEventListener('click', function () { lb.classList.remove('open'); });
-    lb.querySelector('.lb-prev').addEventListener('click', function () { showLb(cur - 1); });
-    lb.querySelector('.lb-next').addEventListener('click', function () { showLb(cur + 1); });
-    lb.addEventListener('click', function (e) { if (e.target === lb) lb.classList.remove('open'); });
+    function lbClose() { lb.classList.remove('open'); }
+    lb.querySelector('.lb-close').addEventListener('click', lbClose);
+    lb.querySelector('.lb-prev').addEventListener('click', function () { lbShow(lbCur - 1); });
+    lb.querySelector('.lb-next').addEventListener('click', function () { lbShow(lbCur + 1); });
+    lb.addEventListener('click', function (e) { if (e.target === lb) lbClose(); });
     document.addEventListener('keydown', function (e) {
       if (!lb.classList.contains('open')) return;
-      if (e.key === 'Escape') lb.classList.remove('open');
-      else if (e.key === 'ArrowLeft') showLb(cur - 1);
-      else if (e.key === 'ArrowRight') showLb(cur + 1);
+      if (e.key === 'Escape') lbClose();
+      else if (e.key === 'ArrowLeft') lbShow(lbCur - 1);
+      else if (e.key === 'ArrowRight') lbShow(lbCur + 1);
+    });
+
+    Array.prototype.forEach.call(galleries, function (gal) {
+      var main = gal.querySelector('.feat-main');
+      var thumbs = Array.prototype.slice.call(gal.querySelectorAll('.feat-thumbs img'));
+      if (!main || !thumbs.length) return;
+      var srcs = thumbs.map(function (im) { return im.getAttribute('src'); });
+      var alts = thumbs.map(function (im) { return im.getAttribute('alt') || ''; });
+      var idx = 0;
+      function setActive(i) {
+        idx = i;
+        main.src = srcs[i]; main.alt = alts[i];
+        thumbs.forEach(function (im, k) { im.classList.toggle('active', k === i); });
+      }
+      thumbs.forEach(function (im, i) { im.addEventListener('click', function () { setActive(i); }); });
+      thumbs[0].classList.add('active');
+      main.addEventListener('click', function () {
+        lbSrcs = srcs; lbAlts = alts;
+        lb.classList.add('open'); lbShow(idx);
+      });
     });
   }
 });
