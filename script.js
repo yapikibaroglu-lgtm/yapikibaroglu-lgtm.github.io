@@ -189,4 +189,28 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     });
   }
+
+  // ---- Ana sayfa slayt (otomatik geçiş) ----
+  var slideshow = document.querySelector('.slideshow');
+  if (slideshow) {
+    var slides = Array.prototype.slice.call(slideshow.querySelectorAll('.slide'));
+    var dotsWrap = slideshow.querySelector('.slide-dots');
+    var sCur = 0, sTimer;
+    var dots = slides.map(function (s, i) {
+      var d = document.createElement('button');
+      d.type = 'button';
+      d.setAttribute('aria-label', 'Görsel ' + (i + 1));
+      if (i === 0) d.className = 'active';
+      d.addEventListener('click', function () { showSlide(i); resetTimer(); });
+      if (dotsWrap) dotsWrap.appendChild(d);
+      return d;
+    });
+    function showSlide(i) {
+      slides[sCur].classList.remove('active'); dots[sCur].classList.remove('active');
+      sCur = (i + slides.length) % slides.length;
+      slides[sCur].classList.add('active'); dots[sCur].classList.add('active');
+    }
+    function resetTimer() { clearInterval(sTimer); sTimer = setInterval(function () { showSlide(sCur + 1); }, 4500); }
+    if (slides.length > 1) resetTimer();
+  }
 });
