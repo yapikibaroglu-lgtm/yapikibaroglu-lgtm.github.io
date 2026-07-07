@@ -122,9 +122,10 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // ---- Öne çıkan ilan galerileri + lightbox (çoklu ilan destekli) ----
+  // ---- Galeriler + lightbox (ilan galerisi + saha galerisi) ----
   var galleries = document.querySelectorAll('.feat-gallery');
-  if (galleries.length) {
+  var workGalleries = document.querySelectorAll('.work-gallery');
+  if (galleries.length || workGalleries.length) {
     var lb = document.createElement('div');
     lb.className = 'lightbox';
     lb.innerHTML =
@@ -171,6 +172,20 @@ document.addEventListener('DOMContentLoaded', function () {
       main.addEventListener('click', function () {
         lbSrcs = srcs; lbAlts = alts;
         lb.classList.add('open'); lbShow(idx);
+      });
+    });
+
+    Array.prototype.forEach.call(workGalleries, function (gal) {
+      var items = Array.prototype.slice.call(gal.querySelectorAll('img'));
+      if (!items.length) return;
+      var srcs = items.map(function (im) { return im.getAttribute('src'); });
+      var alts = items.map(function (im) { return im.getAttribute('alt') || ''; });
+      items.forEach(function (im, i) {
+        var trigger = im.closest('.work-item') || im;
+        trigger.addEventListener('click', function () {
+          lbSrcs = srcs; lbAlts = alts;
+          lb.classList.add('open'); lbShow(i);
+        });
       });
     });
   }
